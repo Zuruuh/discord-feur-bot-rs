@@ -7,4 +7,4 @@ COPY . .
 
 RUN cargo build --release
 
-CMD [ "./target/release/discord-feur-bot-rs" ]
+CMD [ "/srv/target/release/discord-feur-bot-rust" ]
