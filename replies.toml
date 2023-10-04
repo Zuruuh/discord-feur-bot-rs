@@ -1,4 +1,11 @@
-banned_games = ["League of Legends", "Fortnite", "Osu", "Honkai", "Genshin"]
+banned_games = [
+  "League of Legends",
+  "Fortnite",
+  "Osu",
+  "Honkai",
+  "Genshin",
+  "Valorant",
+]
 
 [replies.quoi]
 replies = [

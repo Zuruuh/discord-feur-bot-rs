@@ -11,6 +11,11 @@ pub async fn presence_update(context: Context, presence: Presence) {
     }
 
     let guild = presence.guild_id.unwrap();
+    if let Ok(allowed_guild_id) = env::var("GUILD_ID") {
+        if allowed_guild_id.parse::<u64>().unwrap().ne(&guild.0) {
+            return;
+        }
+    }
     let member = guild.member(&context.http, presence.user.id).await;
 
     if member.is_err() {
@@ -30,10 +35,12 @@ pub async fn presence_update(context: Context, presence: Presence) {
             .expect("Invalid role ID provided"),
     );
 
-    guild
+    let roles = guild
         .roles(&context.http)
         .await
-        .expect("Could not read roles")
+        .expect("Could not read roles");
+
+    roles
         .get(&trash_role_id)
         .expect(&format!("Role with id {trash_role_id} does not exist"));
 
@@ -42,7 +49,6 @@ pub async fn presence_update(context: Context, presence: Presence) {
             .banned_games
             .iter()
             .any(|banned_game| -> bool {
-                println!("{}", activity.name);
                 activity
                     .name
                     .to_lowercase()

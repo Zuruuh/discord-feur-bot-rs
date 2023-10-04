@@ -20,14 +20,9 @@ impl EventHandler for Handler {
             return;
         }
 
-        println!(
-            "Received message from {} with content \"{}\"",
-            &message.author.name, &message.content
-        );
         let content = crate::WHITESPACE_REGEX
             .replace_all(&message.content, "")
             .to_lowercase();
-        println!("Parsed message to raw string \"{}\"", &content);
 
         for (word, replies) in crate::CONFIG.replies.iter() {
             if content.ends_with(word) {
