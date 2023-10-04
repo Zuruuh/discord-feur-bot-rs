@@ -1,5 +1,6 @@
 use dotenv::dotenv;
 use lazy_static::lazy_static;
+use rand::seq::SliceRandom;
 use regex::Regex;
 use serenity::{
     async_trait,
@@ -7,8 +8,7 @@ use serenity::{
     prelude::{Context, EventHandler, GatewayIntents},
     Client,
 };
-use std::{env, collections::HashMap};
-use rand::seq::SliceRandom;
+use std::{collections::HashMap, env};
 
 const REPLIES_JSON: &str = std::include_str!("../replies.json");
 lazy_static! {
@@ -36,16 +36,15 @@ impl EventHandler for Handler {
         println!("Parsed message to raw string \"{}\"", &content);
 
         for keyword in REPLIES.keys() {
-            if Regex::new(&format!("{}$", &keyword)).unwrap().is_match(&content) {
+            if Regex::new(&format!("{}$", &keyword))
+                .unwrap()
+                .is_match(&content)
+            {
                 let replies = REPLIES.get(keyword).unwrap();
                 let reply = replies.choose(&mut rand::thread_rng()).unwrap();
 
-
                 message
-                    .reply_ping(
-                        &context.http,
-                        reply
-                    )
+                    .reply_ping(&context.http, reply)
                     .await
                     .expect("Could not reply to message!");
             }

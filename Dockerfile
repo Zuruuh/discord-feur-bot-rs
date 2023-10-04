@@ -1,8 +1,14 @@
 FROM rust:1.72
-ENV BOT_TOKEN=$BOT_TOKEN
 
 WORKDIR /srv
 
+RUN mkdir src && touch src/main.rs
+
+COPY Cargo.toml Cargo.lock ./
+
+RUN cargo fetch
+
+RUN rm -rf src
 COPY . .
 
 RUN cargo build --release
