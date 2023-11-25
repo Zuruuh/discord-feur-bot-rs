@@ -33,6 +33,8 @@ impl EventHandler for Handler {
                 .await
                 .unwrap();
 
+            message.delete(&context).await.unwrap();
+
             return;
         }
 
