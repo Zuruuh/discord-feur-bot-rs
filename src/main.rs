@@ -11,6 +11,8 @@ mod presence;
 
 use config::Config;
 
+pub const AUTHOR_ID: &'static str = "319181790269014016";
+
 lazy_static! {
     pub static ref WHITESPACE_REGEX: Regex = Regex::new("\\W").unwrap();
     pub static ref CONFIG: Config = {

@@ -20,6 +20,22 @@ impl EventHandler for Handler {
             return;
         }
 
+        if message.content.starts_with("+say") && message.author.id.to_string() == crate::AUTHOR_ID
+        {
+            message
+                .channel(&context)
+                .await
+                .unwrap()
+                .id()
+                .send_message(&context, |builder| {
+                    builder.content(message.content.chars().skip(4).collect::<String>())
+                })
+                .await
+                .unwrap();
+
+            return;
+        }
+
         let content = crate::WHITESPACE_REGEX
             .replace_all(&message.content, "")
             .to_lowercase();
