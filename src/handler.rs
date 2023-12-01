@@ -22,6 +22,8 @@ impl EventHandler for Handler {
 
         if message.content.starts_with("+say") && message.author.id.to_string() == crate::AUTHOR_ID
         {
+            message.delete(&context).await.unwrap();
+
             message
                 .channel(&context)
                 .await
@@ -32,8 +34,6 @@ impl EventHandler for Handler {
                 })
                 .await
                 .unwrap();
-
-            message.delete(&context).await.unwrap();
 
             return;
         }
